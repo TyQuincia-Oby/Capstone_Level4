@@ -3,8 +3,9 @@ import 'dotenv/config';
 import cors from 'cors';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
 app.use(cors()); //enables cors requests
 
 app.get('/', (req, res) =>{
@@ -15,6 +16,6 @@ app.get('/', (req, res) =>{
 });
 
 app.listen(PORT, () => {
-    console.log(`Backend running on port ${PORT}`)
+    console.log(`Backend Server running on port ${PORT}`)
 });
 
