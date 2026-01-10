@@ -2,37 +2,122 @@ body {
   background-color: #0D0208; /* Very dark background, almost black */
   color: #72CDA1;           /* Vibrant green text color */
   font-family: monospace;    /* Monospaced font for a terminal look */
-  word-break: break-all;     /* Optional: breaks all words to simulate code flow */
-
+  word-break: break-word;    
+  overflow-wrap: anywhere;
+  padding: 30px
 }
 
 /* Example for links to maintain the theme */
 a {
-  color: #00FF41; /* Brighter green for links */
+  color: #00FF41;
+  transition: text-shadow 0.2s ease;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.7);
+}
+
+button:hover {
+  color: #72CDA1;
+  transition: text-shadow 0.5s ease;
+}
+
+button{
+  background-color: black;
+  color: #72CDA1;
+  padding: 3px;
+  margin: 10px;
 }
 
 .transaction-display{
-  border-width: 5px;
-  border-color: #72CDA1;
-  border-style: solid;
   height: 60vh;
-  width: 60vw;
-  padding: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 80vw;
 }
 
+.transaction-display2{
+  height: 40vh;
+  width: 70vw;
+  align-self: center;
+}
+
+.panel {
+  border: 5px solid #72CDA1;
+  padding: 10px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #72CDA1;
+  margin: 10px;
+  box-shadow:
+    0 0 10px rgba(114, 205, 161, 0.35),
+    inset 0 0 6px rgba(114, 205, 161, 0.25);
+}
+
+@keyframes panelPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(114, 205, 161, 0.35), inset 0 0 6px rgba(114, 205, 161, 0.25); }
+  50% { box-shadow: 0 0 14px rgba(114, 205, 161, 0.55), inset 0 0 8px rgba(114, 205, 161, 0.35); }
+}
+
+.transaction-display,
+.transaction-display2 {
+  animation: panelPulse 6s ease-in-out infinite;
+}
+
+
 .bank-title{
-  text-align: center;
   margin: 20px;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 8px rgba(114, 205, 161, 0.6);
 }
 
 .display{
-  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+body::before {
+   content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(114, 205, 161, 0.03),
+    rgba(114, 205, 161, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.7;
+}
+
+.transaction-display p,
+.transaction-display2 p {
+  line-height: 1.4;
+}
+
+.delete-icon {
+  cursor: pointer;
+  color: #72CDA1;
+  margin-left: 10px;
+}
+
+.delete-icon:hover {
+  color: #ff4d4d;
+  text-shadow: 0 0 6px rgba(255, 77, 77, 0.8);
+}
+
+.update-icon {
+  cursor: pointer;
+  color: #72CDA1;
+  margin-left: 8px;
+}
+
+.update-icon:hover {
+  color: #00ff41;
+  text-shadow: 0 0 6px rgba(0, 255, 65, 0.7);
+}
+
+p:hover{
+  text-decoration: line-through;
 }
