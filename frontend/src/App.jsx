@@ -4,6 +4,7 @@ import TransDisplay from './assets/components/TransDisplay.jsx';
 import Home from './assets/pages/home.jsx';
 import Personal from './assets/pages/personal.jsx'
 import Rewards from './assets/pages/rewards.jsx'
+import { TransForm } from './assets/components/TransForm.jsx';
 
   //variables for views
   const VIEWS = {
@@ -50,6 +51,7 @@ function App() {
             </div>
           }
         </div>
+         <TransForm />
       </div>
     </>
   )

@@ -16,6 +16,7 @@ a {
 
 a:hover {
   text-shadow: 0 0 6px rgba(0, 255, 65, 0.7);
+
 }
 
 button:hover {
@@ -119,5 +120,18 @@ body::before {
 }
 
 p:hover{
-  text-decoration: line-through;
+  text-decoration: underline;
+}
+
+.form{
+  margin: 50px;
+  justify-items: center;
+}
+
+input{
+margin: 5px;
+}
+
+label{
+  margin: 10px
 }
