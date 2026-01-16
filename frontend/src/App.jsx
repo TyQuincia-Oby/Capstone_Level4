@@ -5,6 +5,8 @@ import Home from './assets/pages/home.jsx';
 import Personal from './assets/pages/personal.jsx'
 import Rewards from './assets/pages/rewards.jsx'
 import { TransForm } from './assets/components/TransForm.jsx';
+import { SignIn } from './assets/components/signInForm.jsx'
+import supabase from './utils/supabase.js';
 
   //variables for views
   const VIEWS = {
@@ -47,11 +49,12 @@ function App() {
 
           {view === VIEWS.TRANSACTIONS &&
             <div className="col">
-              <button>NEW TRANSACTION ENTRY</button>
+              <button >NEW TRANSACTION ENTRY</button>
             </div>
           }
         </div>
          <TransForm />
+         <SignIn />
       </div>
     </>
   )
