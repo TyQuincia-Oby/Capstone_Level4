@@ -17,7 +17,7 @@ import supabase from './utils/supabase.js';
   }
 
 function App() {
-
+  
   const [view, setView] = useState("transactions")
 
   //variables for components to connect to views

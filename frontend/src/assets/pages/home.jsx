@@ -1,7 +1,12 @@
+
+
 export default function Home(){
     return (
-        <div>
-            Welcome to Home Screen!
-        </div>
+        <>
+            <h1>WELCOME</h1>
+            <div className="transaction-display panel">
+                
+            </div>
+        </>
     )
 }
