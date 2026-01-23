@@ -11,6 +11,7 @@ app.get('/', (req, res) => {
     console.log('Microservice home route active')
 });
 
+
 app.listen(PORT, () => {
     console.log(`Microservice Server running on port ${PORT} `)
 });
