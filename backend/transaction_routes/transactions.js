@@ -25,6 +25,8 @@ const router = express.Router();
 
 //express routes
 //GET LIST of transactions
+//TransDisplay component in frontend
+
 router.get('/transactions', async (req, res) => {
     console.log("Hello from transactions route")
     //fetching data from mtx_transaction table in Supabase
@@ -40,13 +42,15 @@ router.get('/transactions', async (req, res) => {
         res.json(data);
     } catch (error) {
         //handle errors : if the database fails, return error code 500
+        console.log(error)
         res.status(500).json({
-                error: "error.message"
+                error: error.message
             })
     }
 });
 
 //GET ONE Transaction
+//TransDisplay component in frontend
 router.get('/transactions/:id', async (req, res) => {
     try{
         //fetch data from table in supabase
@@ -61,14 +65,16 @@ router.get('/transactions/:id', async (req, res) => {
         if (error) throw error;
         } catch (error) {
             //handle errors : if the database fails, return error code 500
+            console.log(error)
             res.status(500).json({
-                    error: "error.message"
+                    error: error.message
                 })
 
          }
 })
 
 //POST NEW Transaction
+//TransForm component in frontend
 router.post('/transactions', async (req, res) => {
     try {
         //if nothing in request body (req.body) throw error
@@ -140,11 +146,13 @@ router.post('/transactions', async (req, res) => {
 })
 
 //PUT UPDATE Transaction
+// ==> ↻ <== on transaction line on TransDisplay component
 router.put('/transactions/update/:id', async (req, res) => {
 
 })
 
 //DELETE Transaction
+// ==> ✖ <== on transaction line on TransDisplay component
 router.delete('/transactions/:id', async (req, res) => {
 
 })
