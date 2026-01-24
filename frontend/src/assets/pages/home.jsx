@@ -1,9 +1,10 @@
 
 
-export default function Home(){
+export default function Home({user}){
     return (
         <>
-            <h1>WELCOME</h1>
+            <h1>WELCOME {user}</h1>
+            <br />
             <div className="transaction-display panel">
                 
             </div>

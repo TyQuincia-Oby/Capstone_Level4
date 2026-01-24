@@ -1,9 +1,9 @@
 import {useState} from 'react'
 import supabase from '../../utils/supabase';
 
-export function SignIn() {
+export function SignIn({user, setUser, view, VIEWS}) {
     
-    const [user, setUser] = useState(null);
+    
     async function handleSignIn (e){
         //prevents page from constant reloading
         e.preventDefault();
@@ -37,7 +37,7 @@ export function SignIn() {
 
     return (
         <div className="transaction-display panel">
-            { user && <h4 style={{textAlign:"center"}}>WELCOME {user.email}</h4>
+            {VIEWS.HOME && user && <h4 style={{textAlign:"center"}}>WELCOME {user.email}</h4>
 
             }
 

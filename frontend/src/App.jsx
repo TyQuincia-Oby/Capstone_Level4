@@ -8,18 +8,19 @@ import { TransForm } from './assets/components/TransForm.jsx';
 import { SignIn } from './assets/components/signInForm.jsx'
 import supabase from './utils/supabase.js';
 
-  //variables for views
+
+
+function App() {
+    //variables for views
   const VIEWS = {
     HOME: "home",
     TRANSACTIONS: "transactions",
     PERSONAL: "personal",
     REWARDS: "rewards"
   }
-
-function App() {
   
   const [view, setView] = useState("transactions")
-
+  const [user, setUser] = useState(null);
   //variables for components to connect to views
   const pages = {
     [VIEWS.HOME]: <Home />,
@@ -47,14 +48,16 @@ function App() {
         <div className="display">
           {pages[view]}
 
-          {view === VIEWS.TRANSACTIONS &&
+          {/* {view === VIEWS.TRANSACTIONS &&
             <div className="col">
               <button >NEW TRANSACTION ENTRY</button>
             </div>
-          }
+          } */}
+
+          
         </div>
-         <TransForm />
-         <SignIn />
+         {/* <TransForm /> */}
+         <SignIn user={user} view={view} setUser={setUser} VIEWS={VIEWS} />
       </div>
     </>
   )

@@ -2,6 +2,7 @@
 
 //****STILL HAVE TO ADD FUNCTION FOR GET BY ID */
 import { useEffect, useState } from 'react'
+import { TransForm } from './TransForm';
 
 export default function TransDisplay() {
 
@@ -9,6 +10,7 @@ export default function TransDisplay() {
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
+  const [showForm, setShowForm] = useState(false)
 
   useEffect(() => {
     async function fetchTransactions() {
@@ -48,6 +50,10 @@ export default function TransDisplay() {
     )
   }
 
+  
+
+
+
   return (
     <>
       <div className="transaction-display panel">
@@ -67,6 +73,13 @@ export default function TransDisplay() {
           ))}
         </div>
       </div>
+      <div className="col">
+        {/* when button is clicked new transaction form will show*/}
+        <button onClick={() => setShowForm(true)} >NEW TRANSACTION ENTRY</button>
+      </div>
+      <div className="row">
+        {showForm && <TransForm onClose={() => setShowForm(false)} />}
+      </div>
     </>
   )
-}
+} 

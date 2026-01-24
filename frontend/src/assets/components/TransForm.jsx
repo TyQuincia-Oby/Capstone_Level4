@@ -1,13 +1,14 @@
 import {useState, useEffect} from 'react';
 import supabase from '../../utils/supabase';
 
+
 export function TransForm ({handleAddTrans}){
-
-    useEffect(() => {
-
-        async function handleAddTrans(event){
+        
+            async function handleAddTrans(event){
             //prevents page refreshing
-            event.preventDefault();       
+            event.preventDefault();    
+            
+            console.log(event)
 
             console.log("transaction added")
             console.log("name" + event.target.elements.name.value);
@@ -32,7 +33,6 @@ export function TransForm ({handleAddTrans}){
             let newTransaction = {
                 name : name, 
                 trans_number : transNumber,
-                date : date,
                 trans_date : date,
                 description : description,
                 deposit : deposit,
@@ -45,15 +45,32 @@ export function TransForm ({handleAddTrans}){
             console.log(newTransaction);
 
             //POST NEW Transaction to Supabase table
-            const url = await fetch("http://localhost:3000/api/data/transactions")
+            const response = await fetch("http://localhost:3000/api/data/transactions",{
+                method : "POST", 
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(newTransaction)
+            })
             
-            const {data, error} = url
+            const result = await response.json()
+
+            console.log(response)
+            console.log(result)
+
+            if (response.ok){
+                console.log("NEW TRANSACTION SUCCESSFUL")
+            } else {
+                console.error("ERROR ADDING TRANSACTION")
+            }
 
             //Clear forms after submitting
             event.target.reset();
+
+            await supabase.from("mtx_transactions").insert(newTransaction);
         
-        }
-    })
+        
+    }
 
 
 
