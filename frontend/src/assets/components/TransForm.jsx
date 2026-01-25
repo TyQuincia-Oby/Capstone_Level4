@@ -1,10 +1,10 @@
 import {useState, useEffect} from 'react';
-import supabase from '../../utils/supabase';
 
-
-export function TransForm ({handleAddTrans}){
+export function TransForm ({onTransactionAdded, onClose}){
+    //tracking transaction type
+    const [type, setType] = useState("");
         
-            async function handleAddTrans(event){
+            async function handleSubmit(event){
             //prevents page refreshing
             event.preventDefault();    
             
@@ -35,8 +35,11 @@ export function TransForm ({handleAddTrans}){
                 trans_number : transNumber,
                 trans_date : date,
                 description : description,
-                deposit : deposit,
-                withdrawal: withdrawal,
+
+                //only include the type (withdrawal or deposit) 
+                // when selected as select option
+                deposit : type === "deposit" ? deposit:null,
+                withdrawal: type === "withdrawal" ? withdrawal:null,
                 balance: balance,
                 id : id
             }
@@ -53,91 +56,168 @@ export function TransForm ({handleAddTrans}){
                 body: JSON.stringify(newTransaction)
             })
             
-            const result = await response.json()
-
-            console.log(response)
-            console.log(result)
-
             if (response.ok){
+                onTransactionAdded?.();//refresh list
                 console.log("NEW TRANSACTION SUCCESSFUL")
+                onClose(); //close new transaction form
+                //Clear forms after submitting
+                event.target.reset();  
             } else {
                 console.error("ERROR ADDING TRANSACTION")
             }
 
-            //Clear forms after submitting
-            event.target.reset();
-
-            await supabase.from("mtx_transactions").insert(newTransaction);
-        
-        
+      
     }
 
 
 
     return(
-        <div className = "transaction-display panel">
-            <h4 style={{textAlign: "center"}}>CREATE NEW TRANSACTION</h4>
-            <form onSubmit={handleAddTrans} className="transForm">
-                <label>
-                    NAME
-                    <input type="text" name="name" required />
-                </label>
+        <>
+        //form will pop up on top of everything in screen
+        <div className="modal fade show d-block panel " tabIndex="-1">
 
-                <br />
-
-                <label>
-                    REFERENCE ID
-                    <input type="number" name="transNumber" required />
-                </label>
-
-                <br />
-
-                <label>
-                    DATE 
-                    <input type="date" name="date" required/>
-                </label>
-
-                <br />
-
-                <label>
-                    DESCRIPTION
-                    <input type="text" name="description" required/>
-                </label>
-
-                <br />
-
-
-                <label>
-                    DEPOSIT 
-                    <input type="number" name="deposit" />
-                </label>
-
-                <br />
-
-                <label>
-                    WITHDRAWAL
-                    <input type="number" name="withdrawal" />
-                </label>
-
-                <br />
-
-                <label>
-                    BALANCE
-                    <input type="number" name="balance" />
-                </label>
+            {/* form content centered on page */}
+            <div className="modal-dialog modal-lg modal-dialog-centered ">
+                            
                 
-                <br />
+                <div className="modal-content">
+                    <div className = "modal-header">
+                        <h5 className="modal-title">CREATE NEW TRANSACTION</h5>
+                        <button type="button" className="btn-close" onClick={onClose}></button>
+                    </div>
 
-                <label>
-                    UNIQUE ID
-                    <input name="id" type="password" required />
-                </label>
+                    <div className="modal-body">
+                        {/* forms */}
+                            <form onSubmit={handleSubmit} className="transForm">
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        <label >
+                                            NAME
+                                        </label>
+                                    </div>
+                                    <div className="col">
+                                        <input type="text" name="name" className="form-control" required />
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        <label >
+                                            REFERENCE ID
+                                        </label>
+                                    </div>
+                                    <div className="col">
+                                        <input type="number" name="transNumber" className="form-control" required />
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        <label>
+                                            DATE
+                                        </label>
+                                    </div>
+                                    <div className="col">
+                                        <input type="date" name="date" className="form-control" required/>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        <label >
+                                            DESCRIPTION
+                                        </label>
+                                    </div>
+                                    <div className="col">
+                                        <input type="text" name="description" className="form-control" required/>
+                                    </div>
+                                </div>
 
-                <br />
+                                <br />
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        TRANSACTION TYPE
+                                    </div>
+                                    <div className="col">
+                                        <select 
+                                        className='form-select' 
+                                        value={type} //type can be deposit or withdrawal
+                                        onChange={(e) => setType(e.target.value)} 
+                                        //when the type is changed in the input set it to that type
+                                        >
+                                            <option value="" default>Please Select</option>
+                                            <option value="deposit" >Deposit</option>
+                                            <option value="withdrawal" >Withdrawal</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                {/* if type is deposit a form for deposit will appear */}
+                                {type === "deposit" &&
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        <label>
+                                            DEPOSIT 
+                                        </label>
+                                    </div>
+                                    <div className="col">
+                                        <input type="number" name="deposit" className="form-control" />
+                                    </div>
+                                </div>
+                                }
+                                {/* if type is withdrawal a form for withdrawal will appear */}
+                                {type === "withdrawal" &&
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        <label >
+                                            WITHDRAWAL
+                                        </label>
+                                    </div>
+                                    <div className="col">
+                                        <input type="number" name="withdrawal" className="form-control"/>
+                                    </div>
+                                </div>}
 
-                <button type="submit">:: ++ ADD ++ ::</button>
-            </form>
+                                <br />
+                                
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        <label>
+                                            BALANCE
+                                        </label>
+                                    </div>
+                                    <div className="col">
+                                        <input type="number" name="balance" className="form-control"/>
+                                    </div>
+                                </div>
+                                
+                                <br />
 
+                                <div className="mb-2 row">
+                                    <div className="col text-center">
+                                        <label>
+                                            UNIQUE ID
+                                        </label>
+                                    </div>
+                                    <div className="col">
+                                        <input name="id" type="password" className="form-control" required />
+                                    </div>
+                                </div>
+                            <br />
+
+                            <button type="submit">:: ++ ADD ++ ::</button>
+                        </form>
+                    </div>
+                        
+                    <div className="modal-footer">
+                    <button onClick={onClose}>
+                        :: ++ CANCEL ++ ::
+                    </button>
+                    </div>
+                </div>
+            </div>
         </div>
+        {/* Backdrop */}
+      <div className="modal-backdrop fade show"></div>
+      </>
     )
 }

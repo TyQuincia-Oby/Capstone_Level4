@@ -1,9 +1,9 @@
 
 
-export default function Home({user}){
+export default function Home({user, setUser, view, VIEWS}){
     return (
         <>
-            <h1>WELCOME {user}</h1>
+            <h1>WELCOME {user.email}</h1>
             <br />
             <div className="transaction-display panel">
                 

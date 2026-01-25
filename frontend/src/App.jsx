@@ -6,6 +6,7 @@ import Personal from './assets/pages/personal.jsx'
 import Rewards from './assets/pages/rewards.jsx'
 import { TransForm } from './assets/components/TransForm.jsx';
 import { SignIn } from './assets/components/signInForm.jsx'
+import Vault from './assets/pages/vault.jsx'
 import supabase from './utils/supabase.js';
 
 
@@ -16,7 +17,8 @@ function App() {
     HOME: "home",
     TRANSACTIONS: "transactions",
     PERSONAL: "personal",
-    REWARDS: "rewards"
+    REWARDS: "rewards",
+    VAULT: "vault"
   }
   
   const [view, setView] = useState("transactions")
@@ -26,7 +28,8 @@ function App() {
     [VIEWS.HOME]: <Home />,
     [VIEWS.TRANSACTIONS]: <TransDisplay />,
     [VIEWS.PERSONAL]: <Personal />,
-    [VIEWS.REWARDS]: <Rewards />
+    [VIEWS.REWARDS]: <Rewards />,
+    [VIEWS.VAULT]: <Vault />
   }
  
   return (
@@ -57,7 +60,9 @@ function App() {
           
         </div>
          {/* <TransForm /> */}
-         <SignIn user={user} view={view} setUser={setUser} VIEWS={VIEWS} />
+         {/* Signin component controls what
+         the user will see after signing in */}
+         <SignIn user={user} view={view} setUser={setUser} VIEWS={VIEWS} setView={setView} />
       </div>
     </>
   )

@@ -12,7 +12,6 @@ export default function TransDisplay() {
   const [errorMessage, setErrorMessage] = useState(false)
   const [showForm, setShowForm] = useState(false)
 
-  useEffect(() => {
     async function fetchTransactions() {
       try {
         const result = await fetch("http://localhost:3000/api/data/transactions");
@@ -32,7 +31,7 @@ export default function TransDisplay() {
       }
     }
     fetchTransactions();
-  }, []);
+  
 
   if (loading) {
     return (
@@ -56,7 +55,8 @@ export default function TransDisplay() {
 
   return (
     <>
-      <div className="transaction-display panel">
+    <div className="row">
+      <div className="transaction-display panel col">
         <h4 style={{ textAlign: "center" }}>REFERENCE ID || DATE || DESCRIPTION || DEPOSIT || WITHDRAWAL || BALANCE </h4>
         <div className="transaction-display2 panel">
           {transactions.map((tx) => (
@@ -65,7 +65,7 @@ export default function TransDisplay() {
                 <button className="update-icon">↻</button> ||
                 {tx.trans_number}# || {tx.trans_date} || {tx.description} ||
                 {tx.deposit ? `$${tx.deposit}` : "-"} ||
-                ${tx.withdrawal ? `$${tx.withdrawal}` : "-"} ||
+                {tx.withdrawal ? `$${tx.withdrawal}` : "-"} ||
                 ${tx.balance} ||
                 <button className="delete-icon">✖</button>
               </p>
@@ -73,13 +73,18 @@ export default function TransDisplay() {
           ))}
         </div>
       </div>
-      <div className="col">
+      <div className="col-2">
         {/* when button is clicked new transaction form will show*/}
         <button onClick={() => setShowForm(true)} >NEW TRANSACTION ENTRY</button>
       </div>
-      <div className="row">
-        {showForm && <TransForm onClose={() => setShowForm(false)} />}
+    </div>
+    <div className="row">
+      <div className="col">
+              {showForm && <TransForm onClose={() => setShowForm(false)}  onTransactionAdded={fetchTransactions}/>}
+             
       </div>
+    </div>
+    
     </>
   )
 } 

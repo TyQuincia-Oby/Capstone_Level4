@@ -17,6 +17,24 @@ body {
   padding: 30px
 }
 
+.modal-body{
+  color: #72CDA1; 
+  background-color: black;
+}
+.modal-header{
+  color: #72CDA1; 
+  background-color: black;
+}
+
+.modal-footer{
+   color: #72CDA1; 
+  background-color: black;
+}
+
+.form-control{
+  background-color: #72CDA1;
+}
+
 /* Example for links to maintain the theme */
 a {
   color: #00FF41;
