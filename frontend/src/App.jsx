@@ -25,11 +25,11 @@ function App() {
   const [user, setUser] = useState(null);
   //variables for components to connect to views
   const pages = {
-    [VIEWS.HOME]: <Home />,
+    [VIEWS.HOME]: <Home user={user} />,
     [VIEWS.TRANSACTIONS]: <TransDisplay />,
     [VIEWS.PERSONAL]: <Personal />,
     [VIEWS.REWARDS]: <Rewards />,
-    [VIEWS.VAULT]: <Vault />
+    [VIEWS.VAULT]: <Vault setView={setView} VIEWS={VIEWS} />
   }
  
   return (
