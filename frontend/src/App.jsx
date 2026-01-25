@@ -62,7 +62,15 @@ function App() {
          {/* <TransForm /> */}
          {/* Signin component controls what
          the user will see after signing in */}
-         <SignIn user={user} view={view} setUser={setUser} VIEWS={VIEWS} setView={setView} />
+         {/* <SignIn user={user} view={view} setUser={setUser} VIEWS={VIEWS} setView={setView} /> */}
+          {/* Show SignIn ONLY if not logged in */}
+          {!user && (
+            <SignIn 
+              setUser={setUser}
+              setView={setView}
+              VIEWS={VIEWS}
+            />
+          )}
       </div>
     </>
   )

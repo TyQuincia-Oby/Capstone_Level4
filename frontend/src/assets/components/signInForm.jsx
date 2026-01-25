@@ -10,8 +10,6 @@ export function SignIn({user, setUser, setView, VIEWS}) {
         //prevents page from constant reloading
         e.preventDefault();
 
-        console.log(e);
-
         const email = e.target.elements.email.value;
         const password = e.target.elements.password.value;
 
@@ -29,6 +27,7 @@ export function SignIn({user, setUser, setView, VIEWS}) {
         } else {
             console.log("Error: " 
                 + error.message)
+            return;
         }  
     }
 
