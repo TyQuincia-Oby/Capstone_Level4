@@ -4,23 +4,26 @@
 import { useEffect, useState } from 'react'
 import { TransForm } from './TransForm';
 
-export default function TransDisplay() {
+export default function TransDisplay({user, setUser, fetchTransactions}) {
 
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [hasError, setHasError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(false)
-  const [showForm, setShowForm] = useState(false)
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [selectedTx, setSelectedTx] = useState(null);
 
     async function fetchTransactions() {
       try {
+        setLoading(true)
         const result = await fetch("http://localhost:3000/api/data/transactions");
         if (!result.ok){
           throw new Error(`Response status ${result.status}`)
         }
         const data = await result.json();
+        //give data back as a json response
         setTransactions(data);
-        console.log(data)
+        setHasError(false)//has no error
       } catch (error) {
         setHasError(true);
         setErrorMessage(error.message)
@@ -30,10 +33,35 @@ export default function TransDisplay() {
         setLoading(false) //turns off loading message when list of transactions appears
       }
     }
+    useEffect(() => {
     fetchTransactions();
-  
+  }, []);
 
-  if (loading) {
+  function handleEdit(tx){
+    setSelectedTx(tx); //store transaction behind edited
+    setShowForm(true); //open modal
+  }
+
+  
+  async function handleDelete(id) {
+    const confirmDelete = window.confirm("Delete this transaction?");
+    if (!confirmDelete) return;
+
+    try {
+        const res = await fetch(`http://localhost:3000/api/data/transactions/${id}`, {
+        method: "DELETE",
+        });
+
+        if (!res.ok) throw new Error("Delete failed");
+
+        fetchTransactions(); // refresh list
+        showToast("Transaction deleted 💥");
+    } catch (err) {
+        console.error(err);
+        showToast("Delete failed ❌");
+    }
+
+      if (loading) {
     return (
       <div className="transaction-display panel">
         MTX BANK TRANSACTIONS LOADING…
@@ -49,7 +77,9 @@ export default function TransDisplay() {
     )
   }
 
-  
+  }
+
+
 
 
 
@@ -57,17 +87,30 @@ export default function TransDisplay() {
     <>
     <div className="row">
       <div className="transaction-display panel col">
-        <h4 style={{ textAlign: "center" }}>REFERENCE ID || DATE || DESCRIPTION || DEPOSIT || WITHDRAWAL || BALANCE </h4>
+        <h4 style={{ textAlign: "center" }}>
+          REFERENCE ID || DATE || DESCRIPTION || DEPOSIT || WITHDRAWAL || BALANCE </h4>
         <div className="transaction-display2 panel">
           {transactions.map((tx) => (
             <div key={tx.id}>
               <p>
-                <button className="update-icon">↻</button> ||
+                <button className="update-icon"
+                onClick={() =>{ 
+                    handleEdit(tx);
+                }}    
+                >
+                  ↻
+                </button>
+                ||
                 {tx.trans_number}# || {tx.trans_date} || {tx.description} ||
                 {tx.deposit ? `$${tx.deposit}` : "-"} ||
                 {tx.withdrawal ? `$${tx.withdrawal}` : "-"} ||
                 ${tx.balance} ||
-                <button className="delete-icon">✖</button>
+                <button className="delete-icon"
+                onClick={() =>{
+                  handleDelete(tx.id)
+                }
+              }
+                >✖</button>
               </p>
             </div>
           ))}
@@ -75,16 +118,21 @@ export default function TransDisplay() {
       </div>
       <div className="col-2">
         {/* when button is clicked new transaction form will show*/}
-        <button onClick={() => setShowForm(true)} >NEW TRANSACTION ENTRY</button>
+        <button onClick={() => {setSelectedTx(null);setShowForm(true);}} >
+          NEW TRANSACTION ENTRY
+        </button>
       </div>
     </div>
-    <div className="row">
-      <div className="col">
-              {showForm && <TransForm onClose={() => setShowForm(false)}  onTransactionAdded={fetchTransactions}/>}
-             
-      </div>
-    </div>
-    
+              {showForm && (
+              <TransForm
+              tx={selectedTx} 
+              onClose={() => {
+                setShowForm(false); 
+                setSelectedTx(null);
+              }}  
+                onTransactionAdded={fetchTransactions}
+                />
+             )} 
     </>
-  )
+  );
 } 

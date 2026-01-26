@@ -18,10 +18,11 @@ function App() {
     TRANSACTIONS: "transactions",
     PERSONAL: "personal",
     REWARDS: "rewards",
-    VAULT: "vault"
+    VAULT: "vault",
+    SIGNIN: "signin"
   }
   
-  const [view, setView] = useState("transactions")
+  const [view, setView] = useState("")
   const [user, setUser] = useState(null);
   //variables for components to connect to views
   const pages = {
@@ -29,7 +30,8 @@ function App() {
     [VIEWS.TRANSACTIONS]: <TransDisplay />,
     [VIEWS.PERSONAL]: <Personal />,
     [VIEWS.REWARDS]: <Rewards />,
-    [VIEWS.VAULT]: <Vault setView={setView} VIEWS={VIEWS} />
+    [VIEWS.VAULT]: <Vault setView={setView} VIEWS={VIEWS} />,
+    
   }
  
   return (

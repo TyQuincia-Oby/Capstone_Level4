@@ -3,11 +3,11 @@ import "/vault.css"; //vault has own css
 
 export default function Vault({setView, VIEWS}){ 
     //after vault animation, page will navigate 
-    // to home page automatically
+    // to TRANSACTION page automatically
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setView(VIEWS.HOME); //navigate to home page 
+            setView(VIEWS.TRANSACTIONS); //navigate to home page 
             // after timer is up
         }, 5000);//length of vault animation
 
