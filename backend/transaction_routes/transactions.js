@@ -1,7 +1,7 @@
 //transaction_routes/transactions.js
-
+import {response, Router} from 'express'
 import express from 'express';
-import { supabase } from '../utils/supabase.js';
+import {supabase} from '../utils/supabase.js';
 import {randomUUID} from 'node:crypto'
 
 // //convert a uuid to a BigInt
@@ -29,6 +29,9 @@ const router = express.Router();
 
 router.get('/transactions', async (req, res) => {
     console.log("Hello from transactions route")
+
+    // const authHeader = req.headers.authorization || "";
+    // console.log(authHeader)
     //fetching data from mtx_transaction table in Supabase
     try{
         const {data , error } = await supabase
@@ -47,6 +50,8 @@ router.get('/transactions', async (req, res) => {
                 error: error.message
             })
     }
+
+
 });
 
 //GET ONE Transaction
@@ -147,9 +152,65 @@ router.post('/transactions', async (req, res) => {
 
 //PUT UPDATE Transaction
 // ==> ↻ <== on transaction line on TransDisplay component
-router.put('/transactions/update/:id', async (req, res) => {
+router.put('/transactions/:id', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {trans_number, trans_date, name, description, deposit, withdrawal, balance} = req.body;
 
-})
+        //makes sure theres an id to find
+        if (!id){
+            return res.status(400).json({
+                status: "🟥 ERROR",
+                message: "MISSING_TRANSACTION_ID"
+            });
+        }
+
+        //request must have a transaction date or name
+        if (!trans_date || !name) {
+            return res.status(400).json({
+                status: "🟥 ERROR",
+                message: "REQUIRED_FIELDS_MISSING"
+            })
+        }
+
+        //withdrawal or deposit amount must be above 0
+        if(deposit <0 || withdrawal <0) {
+            return res.status(400).json({
+                status: "🟥 ERROR",
+                message: "INVALID_TRANSACTION_AMOUNT"
+            })
+        }
+
+        const {data, error} = await response
+        .from('mtx_transactions')
+        .update({
+            trans_number,
+            trans_date,
+            name,
+            description,
+            deposit,
+            withdrawal,
+            balance
+        })
+        .eq('id', id)
+        .select()
+        .single();
+
+        if (error) throw error;
+
+        res.status(200).json({
+            status: "TRANSACTION UPDATED",
+            data
+        })
+
+    } catch (error){
+        console.error("UPDATE_FAILED", error);
+        res.status(500).json({
+            status: "🟥 UPDATE_FAILED",
+            error: error.message
+        })
+    }
+});
 
 //DELETE Transaction
 // ==> ✖ <== on transaction line on TransDisplay component
