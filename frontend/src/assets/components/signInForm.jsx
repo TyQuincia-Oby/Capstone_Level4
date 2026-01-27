@@ -3,6 +3,7 @@ import supabase from '../../utils/supabase';
 
 
 
+
 export function SignIn({user, setUser, setView, VIEWS}) {
     
     
@@ -36,6 +37,7 @@ export function SignIn({user, setUser, setView, VIEWS}) {
         <div className="transaction-display panel">
 
             <h4 style={{textAlign:"center"}}>YOUR ACCOUNT AWAITS YOU</h4>
+            <img src="/login-btn.jpeg" alt="shield" style={{display: "flex", justifyContent:"center", alignItems: "center", height: "50%"}} />
             <form onSubmit={handleSignIn}>
                 <label htmlFor="email">ELECTRONIC MAIL
                     <input type="text" name="email" id="email" required />

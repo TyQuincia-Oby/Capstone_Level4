@@ -8,6 +8,7 @@ import { TransForm } from './assets/components/TransForm.jsx';
 import { SignIn } from './assets/components/signInForm.jsx'
 import Vault from './assets/pages/vault.jsx'
 import supabase from './utils/supabase.js';
+import logo from '../public/logo-1.jpeg'
 
 
 
@@ -39,14 +40,28 @@ function App() {
       <div>
         <div className='row'>
           <div className='col'>
-            <h1 className='bank-title'>MTX Bank</h1>
+            <div className='bank-title'>
+              <img src="/logo-1.jpeg" alt="mtx-logo" style={{height:"150px"}} />
+            </div>
           </div>
 
           <div className="col">
-            <button onClick={() => setView(VIEWS.HOME)}>HOME</button>
-            <button onClick={() => setView(VIEWS.TRANSACTIONS)}>TRANSACTIONS</button>
-            <button onClick={() => setView(VIEWS.PERSONAL)}>PERSONAL</button>
-            <button onClick={() => setView(VIEWS.REWARDS)}>REWARDS</button>
+            <button onClick={() => setView(VIEWS.HOME)}>
+              <img src="/mtx-logo2.jpeg" alt="letter-m" style={{height:"30px"}} />
+              HOME
+              </button>
+            <button onClick={() => setView(VIEWS.TRANSACTIONS)}>
+              <img src="/transaction-btn.jpeg" alt="moneybag" style={{height:"30px"}}/>
+              TRANSACTIONS
+            </button>
+            <button onClick={() => setView(VIEWS.PERSONAL)}>
+              <img src="/personal.jpeg" alt="comp" style={{height:"30px"}}/>
+              PERSONAL
+              </button>
+            <button onClick={() => setView(VIEWS.REWARDS)}>
+              <img src="/reward.jpeg" alt="piggy-bank" style={{height:"30px"}}/>
+              REWARDS
+              </button>
           </div>
         </div>
 

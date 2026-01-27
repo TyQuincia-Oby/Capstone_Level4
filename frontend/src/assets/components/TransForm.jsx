@@ -116,7 +116,10 @@ export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onCl
                 
                 <div className="modal-content">
                     <div className = "modal-header">
-                        <h5 className="modal-title">{isEdit ? "EDIT TRANSACTION" : "CREATE NEW TRANSACTION"}</h5>
+                        <h5 className="modal-title">
+                            <img src="/mtx-logo2.jpeg" alt="letter-m"  style={{height:"40px", margin: "5px"}}/>
+                            {isEdit ? "EDIT TRANSACTION" : "CREATE NEW TRANSACTION"}
+                            </h5>
                         <button type="button" className="btn-close" onClick={onClose}></button>
                     </div>
 
