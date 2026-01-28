@@ -181,7 +181,7 @@ router.put('/transactions/:id', async (req, res) => {
             })
         }
 
-        const {data, error} = await response
+        const {data, error} = await supabase
         .from('mtx_transactions')
         .update({
             trans_number,
@@ -215,6 +215,46 @@ router.put('/transactions/:id', async (req, res) => {
 //DELETE Transaction
 // ==> ✖ <== on transaction line on TransDisplay component
 router.delete('/transactions/:id', async (req, res) => {
+    try{
+        const {id} = req.params;
+
+        if (!id){
+            return res.status(400).json({
+                status: "🟥 ERROR",
+                message: "MISSING_TRANSACTION_ID"
+            });
+        }
+
+        const {data, error} = await supabase
+        .from('mtx_transactions') //from this table
+        .delete() //delete transaction
+        .eq("id", id) //with this id
+        .select()//show me what i just deleted
+
+        if (error) throw error;
+
+        if (!data || data.length === 0){
+            return res.status(404)
+            .json({
+                status: "🟥 ERROR",
+                message: "TRANSACTION_NOT_FOUND"
+            })
+        }
+
+        res.status(200)
+        .json({
+            status: "🟩 SUCCESS",
+            message: "TRANSACTION_DELETED_SUCCESSFULLY", 
+            deleted: data[0]
+        })
+
+    }catch (error) {
+        return res.status(400).json({
+            status: "🟥 ERROR",
+            message: error.message
+        })
+
+    }
 
 })
 
