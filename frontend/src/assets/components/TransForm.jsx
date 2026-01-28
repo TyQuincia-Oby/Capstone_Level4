@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import supabase from '../../utils/supabase';
 
 export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onClose, setShowForm, tx}){
     //tracking transaction type
@@ -53,6 +54,16 @@ export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onCl
         const withdrawal = type === "withdrawal" ? withdrawalAmount : null;
         const finalBalance = balance; //auto-calculates
         const id = event.target.elements.id.value;
+        
+        //*****CHECK FOR ERRORS *****/
+        /*Get user data */
+        const { data: { user } } = await supabase.auth.getUser()
+        const userId = user.id
+        console.log(userId)
+
+        /****Add in user session*****/
+        // const { data, error } = await supabase.auth.getSession()
+        // const userSession = user.data
 
         
 
@@ -68,7 +79,8 @@ export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onCl
             deposit,
             withdrawal,
             balance: finalBalance,
-            id
+            id,
+            user_id: userId
         }
 
         //Print new transaction created

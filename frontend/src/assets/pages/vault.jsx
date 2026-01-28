@@ -9,7 +9,7 @@ export default function Vault({setView, VIEWS}){
         const timer = setTimeout(() => {
             setView(VIEWS.TRANSACTIONS); //navigate to home page 
             // after timer is up
-        }, 5000);//length of vault animation
+        }, 2500);//length of vault animation
 
         return () => clearTimeout(timer);
     }, []); //after timer is done clear timer
