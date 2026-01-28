@@ -9,6 +9,8 @@ import { SignIn } from './assets/components/signInForm.jsx'
 import Vault from './assets/pages/vault.jsx'
 import supabase from './utils/supabase.js';
 import logo from '../public/logo-1.jpeg'
+import {ToastContainer} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 
 
@@ -89,6 +91,7 @@ function App() {
             />
           )}
       </div>
+      <ToastContainer position="top-right" autoClose={2500} />
     </>
   )
 }

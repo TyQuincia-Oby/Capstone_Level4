@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react'
 import { TransForm } from './TransForm';
 import {SignIn} from './signInForm'
+import { toast } from 'react-toastify';
 
 export default function TransDisplay({user, setUser, fetchTransactions}) {
 
@@ -55,11 +56,11 @@ export default function TransDisplay({user, setUser, fetchTransactions}) {
 
         if (!res.ok) throw new Error("Delete failed");
 
-        fetchTransactions(); // refresh list
-        showToast("Transaction deleted 💥");
+        await fetchTransactions(); // refresh list
+        toast.success("TRANSACTION ERASED FROM THE LEDGER");
     } catch (err) {
         console.error(err);
-        showToast("Delete failed ❌");
+        toast.error("DELETION BLOCKED BY SYSTEM ERROR ❌");
     }
 
       if (loading) {
@@ -79,10 +80,6 @@ export default function TransDisplay({user, setUser, fetchTransactions}) {
   }
 
   }
-
-
-
-
 
   return (
     <>

@@ -1,10 +1,10 @@
 import {useState, useEffect} from 'react';
 import supabase from '../../utils/supabase';
+import { toast } from 'react-toastify';
 
 export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onClose, setShowForm, tx}){
     //tracking transaction type
     const [type, setType] = useState("");
-    const [toast, setToast] = useState(null);
     const isEdit = !!tx; //check if a transaction 
     const [depositAmount, setDepositAmount] = useState(tx?.deposit || "");
     const [withdrawalAmount, setWithdrawalAmount] = useState(tx?.withdrawal || "");
@@ -33,12 +33,6 @@ export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onCl
     setBalance(startingBalance);
   }
 }, [depositAmount, withdrawalAmount, type, tx]);
-
-
-    function showToast(message){
-        setToast(message);
-        setTimeout(() => setToast(null), 3000)
-    }
         
         async function handleSubmit(event){
         //prevents page refreshing
@@ -106,13 +100,13 @@ export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onCl
 
             onTransactionAdded?.();//refresh list
             onClose(); //close new transaction form
-            showToast(isEdit ? "TRANSACTION UPDATED":"NEW TRANSACTION SUCCESSFUL")
+            toast.success(isEdit ? "TRANSACTION UPDATED":"NEW TRANSACTION SUCCESSFUL")
             //Clear forms after submitting
             event.target.reset();  
         
         } catch (err)  {
             console.error(err);
-            showToast("TRANSACTION FAILED❌");
+            toast.error("TRANSACTION ADDITION FAILED❌");
         }
     }
 
@@ -274,7 +268,6 @@ export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onCl
         </div>
         {/* Backdrop */}
       <div className="modal-backdrop fade show"></div>
-      {toast && <div className="toast show position-fixed bottom-0 end-0 m-3 p-2 bg-dark text-white">{toast}</div>}
       </>
     )
 }
