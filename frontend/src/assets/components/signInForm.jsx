@@ -36,23 +36,35 @@ export function SignIn({user, setUser, setView, VIEWS}) {
     return (
         <div className="transaction-display panel">
 
-            <h4 style={{textAlign:"center"}}>YOUR ACCOUNT AWAITS YOU</h4>
-            <img src="/login-btn.jpeg" alt="shield" style={{display: "flex", justifyContent:"center", alignItems: "center", height: "50%"}} />
-            <form onSubmit={handleSignIn}>
-                <label htmlFor="email">ELECTRONIC MAIL
-                    <input type="text" name="email" id="email" required />
-                </label>
+            <h2 style={{textAlign:"center"}}>YOUR ACCOUNT AWAITS YOU</h2>
+            <div className="row">
+                <div className="col-4">
+                    <h4 style={{textAlign:"center"}}>SIGN IN HERE</h4>
+                    <img src="/login-btn.jpeg" alt="shield" style={{display: "flex", justifyContent:"center", alignItems: "center", height: "50%"}} />
+                    <form onSubmit={handleSignIn}>
+                        <h5>
+                            <label htmlFor="email" style={{textAlign:"center"}}>ELECTRONIC MAIL
+                                <input type="text" name="email" id="email" required />
+                            </label>
+                        </h5>
 
-                <br />
+                        <br />
 
-                <label htmlFor="password" name="password">PASSWORD
-                    <input type="password" name="password" id="password" required />
-                </label>
+                        <h5>
+                            <label htmlFor="password" name="password" style={{textAlign:"center"}}>PASSWORD
+                                <input type="password" name="password" id="password" required />
+                            </label>
+                        </h5>
 
-                <br />
+                        <br />
 
-                <button type="submit">:: ++ ENTER ++ ::</button>
-            </form>
+                        <button type="submit">:: ++ ENTER ++ ::</button>
+                    </form>
+                </div>
+                <div className="col">
+                    <h4 style={{textAlign:"center"}}>MTX APP FEATURES</h4>
+                </div>
+            </div>
         </div>
     )
 }
