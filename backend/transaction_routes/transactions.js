@@ -30,13 +30,41 @@ const router = express.Router();
 router.get('/transactions', async (req, res) => {
     console.log("Hello from transactions route")
 
-    // const authHeader = req.headers.authorization || "";
-    // console.log(authHeader)
-    //fetching data from mtx_transaction table in Supabase
+    const authHeader = req.headers.authorization;
+    console.log(authHeader)
+    if(!authHeader){
+        res.status(401)
+        return res.json({
+            ERROR: "NO_AUTHORIZATION_HEADER_SUPPLIED"
+        })
+    }
+    //split separates the key pair of the JWT Token, 
+    //then get the second item in array, which
+    //would be the actual token
+    const JWTToken = authHeader.split(" ")[1];
+
+    //use JWTToken to get user.id from Supabase 
+    // it belongs to store in authResult
+    const authResult = await supabase.auth.getUser(JWTToken);
+
+    //store the user data in data variable
+    const userData = authResult.data;
+
+    //if there's an error store in userError
+    const userError = authResult.error;
+
+    console.log(userData, userError)
+
+    //store the user's data in user variable
+    const user = userData.user
+
+    //fetching user's data from mtx_transaction table in Supabase
     try{
         const {data , error } = await supabase
         .from('mtx_transactions') //table name
-        .select('*'); //read everything
+        .select('*') //read everything
+        .eq("user_id", user.id)//for this particular user
+        .order("date", {ascending:true})
 
         //let me know if there's an error and if so stop function
         if (error) throw error;
@@ -50,8 +78,6 @@ router.get('/transactions', async (req, res) => {
                 error: error.message
             })
     }
-
-
 });
 
 //GET ONE Transaction
