@@ -51,9 +51,9 @@ export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onCl
         
         //*****CHECK FOR ERRORS *****/
         /*Get user data */
-        const { data: { user } } = await supabase.auth.getUser()
-        const userId = user.id
-        console.log(userId)
+        // const { data: { user } } = await supabase.auth.getUser()
+        // const userId = user.id
+        // console.log(userId)
 
         /****Add in user session*****/
         // const { data, error } = await supabase.auth.getSession()
@@ -74,7 +74,7 @@ export function TransForm ({onTransactionAdded, fetchTransactions,showForm, onCl
             withdrawal,
             balance: finalBalance,
             id,
-            user_id: userId
+            // user_id: userId
         }
 
         //Print new transaction created

@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react'
 import { TransForm } from './TransForm';
 import {SignIn} from './signInForm'
 import { toast } from 'react-toastify';
+import supabase from '../../utils/supabase';
+// import dotenv from 'dotenv'
+
+// dotenv.config();
 
 export default function TransDisplay({user, setUser, fetchTransactions}) {
 
@@ -15,10 +19,28 @@ export default function TransDisplay({user, setUser, fetchTransactions}) {
   const [showForm, setShowForm] = useState(false);
   const [selectedTx, setSelectedTx] = useState(null);
 
-    async function fetchTransactions() {
+  useEffect(() => {
+    async function loadTransactions() {
       try {
         setLoading(true)
-        const result = await fetch("http://localhost:3000/api/data/transactions");
+        /*Get user data */
+        const { data: {user } } = await supabase.auth.getUser()
+        const userId = user.id
+        console.log(userId)
+
+        const { data: sessionData, error } = await supabase.auth.getSession()
+        const userSession = sessionData.session
+
+        const token = userSession.access_token
+        console.log(token)
+        const result = await fetch("http://localhost:3000/api/data/transactions",{
+          Method: "GET",
+          headers:
+          {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          }
+      });
         if (!result.ok){
           throw new Error(`Response status ${result.status}`)
         }
@@ -29,14 +51,13 @@ export default function TransDisplay({user, setUser, fetchTransactions}) {
       } catch (error) {
         setHasError(true);
         setErrorMessage(error.message)
-        console.log(error.message)
         console.error("TRANSACTION STREAM FAILURE", error) //error handling: transaction list GET failure (appears in console)
       } finally {
         setLoading(false) //turns off loading message when list of transactions appears
       }
     }
-    useEffect(() => {
-    fetchTransactions();
+    
+    loadTransactions();
   }, []);
 
   function handleEdit(tx){
