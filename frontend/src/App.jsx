@@ -8,9 +8,9 @@ import { TransForm } from './assets/components/TransForm.jsx';
 import { SignIn } from './assets/components/signInForm.jsx'
 import Vault from './assets/pages/vault.jsx'
 import supabase from './utils/supabase.js';
-import logo from '../public/logo-1.jpeg'
 import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import SignUp from './assets/pages/signup.jsx';
 
 
 
@@ -22,7 +22,8 @@ function App() {
     PERSONAL: "personal",
     REWARDS: "rewards",
     VAULT: "vault",
-    SIGNIN: "signin"
+    SIGNIN: "signin",
+    SIGNUP: "signup"
   }
   
   const [view, setView] = useState("")
@@ -34,6 +35,7 @@ function App() {
     [VIEWS.PERSONAL]: <Personal user={user} />,
     [VIEWS.REWARDS]: <Rewards user={user} />,
     [VIEWS.VAULT]: <Vault setView={setView} VIEWS={VIEWS} />,
+    [VIEWS.SIGNUP] : <SignUp />
     
   }
  
@@ -64,6 +66,10 @@ function App() {
               <img src="/reward.jpeg" alt="piggy-bank" style={{height:"30px"}}/>
               REWARDS
               </button> */}
+            <button onClick={() => setView(VIEWS.SIGNUP)}>
+              <img src="/signup.jpeg" alt="phone" style={{height:"30px"}}/>
+              SIGNUP
+            </button>
           </div>
         </div>
 
