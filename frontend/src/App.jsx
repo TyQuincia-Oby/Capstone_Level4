@@ -48,10 +48,10 @@ function App() {
           </div>
 
           <div className="col">
-            <button onClick={() => setView(VIEWS.HOME)}>
+            {/* <button onClick={() => setView(VIEWS.HOME)}>
               <img src="/mtx-logo2.jpeg" alt="letter-m" style={{height:"30px"}} />
               HOME
-              </button>
+              </button> */}
             <button onClick={() => setView(VIEWS.TRANSACTIONS)}>
               <img src="/transaction-btn.jpeg" alt="moneybag" style={{height:"30px"}}/>
               TRANSACTIONS
@@ -60,10 +60,10 @@ function App() {
               <img src="/personal.jpeg" alt="comp" style={{height:"30px"}}/>
               PERSONAL
               </button>
-            <button onClick={() => setView(VIEWS.REWARDS)}>
+            {/* <button onClick={() => setView(VIEWS.REWARDS)}>
               <img src="/reward.jpeg" alt="piggy-bank" style={{height:"30px"}}/>
               REWARDS
-              </button>
+              </button> */}
           </div>
         </div>
 

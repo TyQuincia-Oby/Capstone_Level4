@@ -4,7 +4,7 @@ import supabase from '../../utils/supabase';
 
 
 
-export function SignIn({user, setUser, setView, VIEWS}) {
+export function SignIn({setUser, setView, VIEWS}) {
     
     
     async function handleSignIn (e){
